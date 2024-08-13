@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,7 +108,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: BlueSlimeIdle_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 109
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f39a5c8c634336c40aeb5c491c98b27d
+      internalID: 119829292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_1
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 109
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f3855ab997271045ad727f72e145866
+      internalID: 1921279204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_2
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 109
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c285fa7ccf068744490d8aac58016c5b
+      internalID: -718679103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_3
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 109
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eafb28cce47960a4993906a8c836557b
+      internalID: 1405212577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_4
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 109
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd83325e98d939f4eafe5518b5c90d25
+      internalID: -264941653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_5
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 109
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55080f9f99ee5f54ba4fbe1ea7ef3269
+      internalID: 590307037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_6
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 109
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 133ab3ee36db96c45bc12c5bd25dc440
+      internalID: -407020358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlueSlimeIdle_7
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 109
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d79f9eef5fde0d45afc001b258ad303
+      internalID: 1190885595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +287,40 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BlueSlimeIdle_0: 119829292
+      BlueSlimeIdle_1: 1921279204
+      BlueSlimeIdle_10: -501132306
+      BlueSlimeIdle_11: 350399491
+      BlueSlimeIdle_12: -2070914098
+      BlueSlimeIdle_13: -1053600362
+      BlueSlimeIdle_14: -554739642
+      BlueSlimeIdle_15: 820564894
+      BlueSlimeIdle_16: -765002335
+      BlueSlimeIdle_17: 347596487
+      BlueSlimeIdle_18: 678472047
+      BlueSlimeIdle_19: 962546151
+      BlueSlimeIdle_2: -718679103
+      BlueSlimeIdle_20: 1620682588
+      BlueSlimeIdle_21: -959938542
+      BlueSlimeIdle_22: 1501862492
+      BlueSlimeIdle_23: 1301199265
+      BlueSlimeIdle_24: 505356167
+      BlueSlimeIdle_25: -1209858811
+      BlueSlimeIdle_26: -741549297
+      BlueSlimeIdle_27: 54620674
+      BlueSlimeIdle_28: -283964339
+      BlueSlimeIdle_29: -1328593763
+      BlueSlimeIdle_3: 1405212577
+      BlueSlimeIdle_30: 1348512638
+      BlueSlimeIdle_31: -98623317
+      BlueSlimeIdle_32: -2121891308
+      BlueSlimeIdle_4: -264941653
+      BlueSlimeIdle_5: 590307037
+      BlueSlimeIdle_6: -407020358
+      BlueSlimeIdle_7: 1190885595
+      BlueSlimeIdle_8: 790604706
+      BlueSlimeIdle_9: -1054849882
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -37,7 +37,7 @@ public class TilemapShadowCaster : MonoBehaviour
                     ShadowCaster2D shadowCaster = shadowCasterObject.AddComponent<ShadowCaster2D>();
                     shadowCaster.selfShadows = false;
                     shadowCaster.useRendererSilhouette = true;
-                    shadowCaster.castsShadows = true;
+                    shadowCaster.castsShadows = false;
                 }
             }
         }
