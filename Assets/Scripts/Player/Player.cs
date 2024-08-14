@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float jump = 300f;
+    [SerializeField] private float jump = 400f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
     private Rigidbody2D rigidBody;
@@ -22,8 +22,8 @@ public class Player : MonoBehaviour {
 
         // Handle movement
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
-        Vector3 moveDir = new Vector3(inputVector.x, 0f, 0f);
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        
+        rigidBody.velocity = new Vector2(inputVector.x * moveSpeed, rigidBody.velocity.y);
 
         // Handle jump
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
