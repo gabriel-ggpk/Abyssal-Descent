@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Pathfinding;
+using System.Collections;
 using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,6 +9,7 @@ namespace Assets.Scripts.ProceduralGeneration
 {
     public class MapController : MonoBehaviour
     {
+
         [Header("Tools")]
         [SerializeField] private bool regen = false;
         [Header("Tile settings")]
@@ -45,7 +47,8 @@ namespace Assets.Scripts.ProceduralGeneration
 
         void Start()
         {
-           BuildMap();
+            StartCoroutine(BuildMap());
+           
         }
         private void Update()
         {
@@ -54,8 +57,10 @@ namespace Assets.Scripts.ProceduralGeneration
                 BuildMap();
                 regen = false;
             }
+
         }
-        private void BuildMap()
+  
+        private IEnumerator BuildMap()
         {
             TerrainGenerator terrainGenerator = new TerrainGenerator(width, height, scale, frequency, seed, noiseType, numCells, octaves, persistence, lacunarity, offset);
             float[,] noiseMap = terrainGenerator.GenerateTerrain();
@@ -74,7 +79,11 @@ namespace Assets.Scripts.ProceduralGeneration
                     tilemap.SetTile(tilePosition, tile);
                 }
             }
+            yield return new WaitForSeconds(0.1f);
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaa");
+            AstarPath.active.Scan();
         }
+
         private TileBase DetermineTile(float noiseValue)
         {
             if (inverseRender)

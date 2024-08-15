@@ -11,11 +11,11 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
     private Rigidbody2D rigidBody;
-    private BoxCollider2D boxCollider2D;
+    private CapsuleCollider2D capCollider2D;
 
     private void Awake () {
         rigidBody = transform.GetComponent<Rigidbody2D>();
-        boxCollider2D = transform.GetComponent<BoxCollider2D>();
+        capCollider2D = transform.GetComponent<CapsuleCollider2D>();
     }
 
     private void Update () {
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
     // Check if player is grounded
     private bool IsGrounded() {
         float extraDistance = .1f;
-        RaycastHit2D raycastHit = Physics2D.Raycast(boxCollider2D.bounds.center, Vector2.down, boxCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
+        RaycastHit2D raycastHit = Physics2D.Raycast(capCollider2D.bounds.center, Vector2.down, capCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
         return raycastHit.collider != null;
     }
 }

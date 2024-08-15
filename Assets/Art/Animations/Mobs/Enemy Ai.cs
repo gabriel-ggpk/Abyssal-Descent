@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     public float speed = 200f, jumpForce = 100f;
     public float nextWaypointDistance = 3f;
     public float jumpNodeHeightRequirement = 0.8f;
-    public float jumpModifier = 0.3f;
+
     public float jumpCheckOffset = 0.1f;
 
     [Header("Custom Behavior")]
@@ -37,7 +37,8 @@ public class EnemyAI : MonoBehaviour
         isJumping = false;
         isInAir = false;
         isOnCoolDown = false;
-
+        GameObject targetGO = GameObject.FindGameObjectWithTag("Player");
+        if (targetGO != null) target = targetGO.GetComponent<Transform>();
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
     }
 
