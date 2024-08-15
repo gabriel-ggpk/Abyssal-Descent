@@ -69,6 +69,10 @@ PrefabInstance:
       value: Slime
       objectReference: {fileID: 0}
     - target: {fileID: 8375864556304184180, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
+      propertyPath: m_LinearDrag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8375864556304184180, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
