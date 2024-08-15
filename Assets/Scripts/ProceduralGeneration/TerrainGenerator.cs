@@ -1,51 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.ProceduralGeneration.MapController;
 
-public class TerrainGenerator : MonoBehaviour
+public class TerrainGenerator
 {
-    [Header("Map Settings")]
-    public int mapWidth = 100;
-    public int mapHeight = 50;
-    public float heightMultiplier = 10f;
+
+    public int width;
+    public int height;
+    public float scale;
     public float frequency = 0.1f;
+    public int seed;
+    public NoiseType noiseType;
+    public int numCells;
+    public int octaves;
+    public float persistence;
+    public float lacunarity;
+    public Vector2 offset;
 
-    [Header("Noise Settings")]
-    public NoiseType noiseType = NoiseType.Perlin;
-    public float noiseScale = 20f;
-
-    private float[,] heightMap;
-
-    public enum NoiseType { Perlin, Simplex }
-
-    void Start()
+    public TerrainGenerator(int width, int height, float scale, float frequency, int seed, NoiseType noiseType, int numCells, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
-        GenerateTerrain();
-        GetComponent<MapRenderer>().RenderMap(heightMap);
+        this.width = width;
+        this.height = height;
+        this.scale = scale;
+        this.frequency = frequency;
+        this.seed = seed;
+        this.noiseType = noiseType;
+        this.numCells = numCells;
+        this.octaves = octaves;
+        this.persistence = persistence;
+        this.lacunarity = lacunarity;
+        this.offset = offset;
     }
 
-    void GenerateTerrain()
+    public float[,] GenerateTerrain()
     {
-        heightMap = new float[mapWidth, mapHeight];
         NoiseGenerator noiseGenerator = new NoiseGenerator();
-
-        for (int x = 0; x < mapWidth; x++)
+        switch (noiseType)
         {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                float noiseValue = 0f;
-                switch (noiseType)
-                {
-                    case NoiseType.Perlin:
-                        noiseValue = noiseGenerator.GeneratePerlinNoise(x, y, noiseScale, frequency);
-                        break;
-                    case NoiseType.Simplex:
-                        noiseValue = noiseGenerator.GenerateSimplexNoise(x, y, noiseScale, frequency);
-                        break;
-                }
-                heightMap[x, y] = Mathf.Clamp(noiseValue * heightMultiplier, 0, mapHeight);
-            }
+            case NoiseType.Voronoi:
+                return noiseGenerator.GenerateVoronoiNoiseMatrix(width, height, scale, numCells, seed);
+            case NoiseType.Worley:
+                return noiseGenerator.GenerateWorleyNoiseMatrix(width, height, scale, numCells, seed);
+            case NoiseType.FBM:
+                return noiseGenerator.GenerateFractalBrownianMotionMatrix(width, height, scale, octaves, persistence, lacunarity, seed, offset);
         }
-    }
+            return noiseGenerator.GeneratePerlinNoiseMatrix(width, height, scale, frequency, seed);
+        }
 }
 

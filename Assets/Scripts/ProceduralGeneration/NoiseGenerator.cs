@@ -14,15 +14,14 @@ public class NoiseGenerator
             {
                 float xCoord = (x + seed) * scale * frequency;
                 float yCoord = (y + seed) * scale * frequency;
-                noiseMatrix[x, y] = Mathf.PerlinNoise(xCoord, yCoord);
+                noiseMatrix[x, y] = Mathf.PerlinNoise(xCoord, yCoord) * 255f;
             }
         }
 
         return noiseMatrix;
     }
 
-
-    //Voronoi
+    // Voronoi
     public float[,] GenerateVoronoiNoiseMatrix(int width, int height, float scale, int numCells, int seed)
     {
         float[,] noiseMatrix = new float[width, height];
@@ -45,19 +44,19 @@ public class NoiseGenerator
                     }
                 }
 
-                noiseMatrix[x, y] = minDist;
+                // Normaliza a distância mínima para o intervalo [0, 1] e depois escala para [0, 100]
+                noiseMatrix[x, y] = Mathf.InverseLerp(0, minDist, minDist) * 255f;
             }
         }
 
         return noiseMatrix;
     }
 
-
-    public float[,] GenerateWorleyNoiseMatrix(int width, int height, float scale, int seed)
+    // Worley
+    public float[,] GenerateWorleyNoiseMatrix(int width, int height, float scale, int numCells, int seed)
     {
         float[,] noiseMatrix = new float[width, height];
         Random.InitState(seed);
-        int numCells = 5;
 
         for (int x = 0; x < width; x++)
         {
@@ -83,46 +82,75 @@ public class NoiseGenerator
                     }
                 }
 
-                noiseMatrix[x, y] = secondMinDist - minDist;
+                // Normaliza a diferença das distâncias para o intervalo [0, 1] e depois escala para [0, 100]
+                noiseMatrix[x, y] = Mathf.InverseLerp(0, secondMinDist - minDist, secondMinDist - minDist) * 255f;
             }
         }
 
         return noiseMatrix;
     }
 
-
-    public float[,] GenerateFractalBrownianMotionMatrix(int width, int height, float scale, int octaves, float persistence, float lacunarity, int seed)
+    // Fractal Brownian Motion (fBM)
+    public float[,] GenerateFractalBrownianMotionMatrix(int width, int height, float scale, int octaves, float persistence, float lacunarity, int seed, Vector2 offset)
     {
-        float[,] noiseMatrix = new float[width, height];
-
-        for (int x = 0; x < width; x++)
         {
+            float[,] noiseMap = new float[width, height];
+
+            System.Random prng = new System.Random(seed);
+            Vector2[] octaveOffsets = new Vector2[octaves];
+
+            for (int i = 0; i < octaves; i++)
+            {
+                float offsetX = prng.Next(-100000, 100000) + offset.x;
+                float offsetY = prng.Next(-100000, 100000) + offset.y;
+                octaveOffsets[i] = new Vector2(offsetX, offsetY);
+            }
+
+            if (scale <= 0)
+            {
+                scale = 0.0001f;
+            }
+
+            float maxNoiseHeight = float.MinValue;
+            float minNoiseHeight = float.MaxValue;
+
+            float halfWidth = width / 2f;
+            float halfHeight = height / 2f;
+
             for (int y = 0; y < height; y++)
             {
-                float total = 0;
-                float frequency = 1;
-                float amplitude = 1;
-                float maxValue = 0;
-
-                for (int i = 0; i < octaves; i++)
+                for (int x = 0; x < width; x++)
                 {
-                    float xCoord = (x + seed) * scale * frequency;
-                    float yCoord = (y + seed) * scale * frequency;
-                    total += Mathf.PerlinNoise(xCoord, yCoord) * amplitude;
+                    float amplitude = 1;
+                    float frequency = 1;
+                    float noiseHeight = 0;
 
-                    maxValue += amplitude;
-                    amplitude *= persistence;
-                    frequency *= lacunarity;
+                    for (int i = 0; i < octaves; i++)
+                    {
+                        float sampleX = (x - halfWidth + octaveOffsets[i].x) / scale * frequency;
+                        float sampleY = (y - halfHeight + octaveOffsets[i].y) / scale * frequency;
+
+                        float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                        noiseHeight += perlinValue * amplitude;
+
+                        amplitude *= persistence;
+                        frequency *= lacunarity;
+                    }
+
+                    if (noiseHeight > maxNoiseHeight)
+                    {
+                        maxNoiseHeight = noiseHeight;
+                    }
+                    else if (noiseHeight < minNoiseHeight)
+                    {
+                        minNoiseHeight = noiseHeight;
+                    }
+
+                    noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseHeight) * 255;
                 }
-
-                noiseMatrix[x, y] = total / maxValue;
             }
+            Debug.Log(noiseMap.ToString());
+            return noiseMap;
         }
-
-        return noiseMatrix;
     }
-
-
-
 }
-
