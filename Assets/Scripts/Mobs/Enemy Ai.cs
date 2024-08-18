@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Attirbutes")]
+    [SerializeField] int damage = 1;
+    [SerializeField] int life = 1;
+
     [Header("Pathfinding")]
     public Transform target;
     public float activateDistance = 50f;
     public float pathUpdateSeconds = 0.5f;
 
     [Header("Physics")]
-    public float speed = 200f, jumpForce = 100f;
+    public float speed = 2f, jumpForce = 10f;
     public float nextWaypointDistance = 3f;
     public float jumpNodeHeightRequirement = 0.8f;
 
@@ -72,7 +76,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         // See if colliding with anything
-        startOffset = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + jumpCheckOffset, transform.position.z);
+        startOffset = transform.position ;
         isGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
 
         // Direction Calculation

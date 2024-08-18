@@ -69,6 +69,10 @@ PrefabInstance:
       value: Slime
       objectReference: {fileID: 0}
     - target: {fileID: 8375864556304184180, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 07eb1f50500618f4294dbe8211a2bd76, type: 2}
+    - target: {fileID: 8375864556304184180, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
       propertyPath: m_LinearDrag
       value: 2
       objectReference: {fileID: 0}
@@ -160,14 +164,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb211a1139c8114e99885387ad52ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  life: 1
   target: {fileID: 0}
   activateDistance: 50
   pathUpdateSeconds: 0.5
   speed: 2
-  jumpForce: 100
+  jumpForce: 5
   nextWaypointDistance: 3
-  jumpNodeHeightRequirement: 0.8
-  jumpModifier: 0.3
+  jumpNodeHeightRequirement: 0.1
   jumpCheckOffset: 0.1
   followEnabled: 1
   jumpEnabled: 1
