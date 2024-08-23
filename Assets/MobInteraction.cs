@@ -6,7 +6,7 @@ public class MobInteraction : MonoBehaviour
 {
     [Header("physics")]
     [SerializeField] Rigidbody2D monsterRb;
-    [SerializeField] float knockback = 10;
+    [SerializeField] float knockback = 5;
 
     [Header("attributes")]
     [SerializeField] HealthBar healthBar;
@@ -35,13 +35,9 @@ public class MobInteraction : MonoBehaviour
         GameObject collisionObject = collision.gameObject;
         if (collisionObject.CompareTag("Player"))
         {
-            float collisionX = collisionObject.transform.position.x;
-            float collisionY = collisionObject.transform.position.y;
-            float monterX = transform.position.x;
-            float monterY = transform.position.y;
             Vector2 direction = (collisionObject.transform.position - transform.position).normalized;
-            collisionObject.GetComponent<Rigidbody2D>().AddForce(direction*knockback,ForceMode2D.Impulse);
-            Debug.Log(new Vector2(collisionX - monterX, collisionY - monterY));
+            Player player = collisionObject.GetComponent<Player>();
+            player.StartCoroutine(player.getHit(direction * knockback));
 
         }
     }
