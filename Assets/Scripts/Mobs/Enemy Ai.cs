@@ -24,20 +24,24 @@ public class EnemyAI : MonoBehaviour
     public bool followEnabled = true;
     public bool jumpEnabled = true, isJumping, isInAir;
     public bool directionLookEnabled = true;
+    public float jumpCD = 1f;
 
     [SerializeField] Vector3 startOffset;
 
     private Path path;
     private int currentWaypoint = 0;
     [SerializeField] public RaycastHit2D isGrounded;
+    [SerializeField] private LayerMask tileMapLayerMask;
     Seeker seeker;
     Rigidbody2D rb;
+    Collider2D collider2d;
     private bool isOnCoolDown;
 
     public void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        collider2d = GetComponent<Collider2D>();
         isJumping = false;
         isInAir = false;
         isOnCoolDown = false;
@@ -61,6 +65,12 @@ public class EnemyAI : MonoBehaviour
             seeker.StartPath(rb.position, target.position, OnPathComplete);
         }
     }
+    private bool IsGrounded()
+    {
+        float extraDistance = .1f;
+        RaycastHit2D raycastHit = Physics2D.Raycast(collider2d.bounds.center, Vector2.down, collider2d.bounds.extents.y + extraDistance, tileMapLayerMask);
+        return raycastHit.collider != null;
+    }
 
     private void PathFollow()
     {
@@ -75,27 +85,24 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // See if colliding with anything
-        startOffset = transform.position ;
-        isGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
-
         // Direction Calculation
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed;
 
         // Jump
-        if (jumpEnabled && isGrounded && !isInAir && !isOnCoolDown)
+        if (jumpEnabled && IsGrounded() && !isInAir && !isOnCoolDown)
         {
+
             if (direction.y > jumpNodeHeightRequirement)
             {
-                if (isInAir) return;
+                //if (isInAir) return;
                 isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 StartCoroutine(JumpCoolDown());
 
             }
         }
-        if (isGrounded)
+        if (IsGrounded())
         {
             isJumping = false;
             isInAir = false;
@@ -146,7 +153,7 @@ public class EnemyAI : MonoBehaviour
     IEnumerator JumpCoolDown()
     {
         isOnCoolDown = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(jumpCD);
         isOnCoolDown = false;
     }
 }

@@ -3,11 +3,11 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour {
 
     public HealthBar healthBar;
-
+    public HealthSystem playerHealthSystem;
     private void Start() {
-        HealthSystem healthSystem = new HealthSystem(100);
+        playerHealthSystem = new HealthSystem(100);
 
-        healthBar.Setup(healthSystem);
+        healthBar.Setup(playerHealthSystem);
 
         /*
         healthSystem.Damage(10);

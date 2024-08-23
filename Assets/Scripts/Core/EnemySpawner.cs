@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
         // Spawn the enemy
         GameObject newEnemy = Instantiate(EnemyPF, spawnPos, Quaternion.identity);
-        StartCoroutine(Spawn(timer ));
+        //StartCoroutine(Spawn(timer ));
     }
 
     private Vector3 GetRandomSpawnPosition()

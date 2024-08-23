@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private LayerMask tileMapLayerMask;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
+    private bool enableMovement = true
 
     private void Awake () {
         rigidBody = transform.GetComponent<Rigidbody2D>();
@@ -36,5 +37,11 @@ public class Player : MonoBehaviour {
         float extraDistance = .1f;
         RaycastHit2D raycastHit = Physics2D.Raycast(capCollider2D.bounds.center, Vector2.down, capCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
         return raycastHit.collider != null;
+    }
+    public IEnumerator knockBack (Vector2 force)
+    {
+        enableMovement = false;
+        gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
     }
 }
