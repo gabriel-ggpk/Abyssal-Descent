@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
     }
     
     // Check if player is grounded
-    private bool IsGrounded() {
+    public bool IsGrounded() {
         float extraDistance = .1f;
         RaycastHit2D raycastHit = Physics2D.Raycast(capCollider2D.bounds.center, Vector2.down, capCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
         return raycastHit.collider != null;

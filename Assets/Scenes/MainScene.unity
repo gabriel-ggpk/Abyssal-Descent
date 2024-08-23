@@ -884,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 063d6cdaf4babc54f985eac071964ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1702251593}
   spriteAnimator: {fileID: 1702251599}
   idleAnimationFrameArray:
   - {fileID: 8830823510014758853, guid: e4edc5b71e4edc74691d26814a2e36e2, type: 3}
@@ -901,6 +902,13 @@ MonoBehaviour:
   - {fileID: 3143180258150543482, guid: 0e2eb732e4f7ddf468bc429203b3dbe1, type: 3}
   - {fileID: -2392258585045476965, guid: 0e2eb732e4f7ddf468bc429203b3dbe1, type: 3}
   - {fileID: 1406666076711649204, guid: 0e2eb732e4f7ddf468bc429203b3dbe1, type: 3}
+  jumpAnimationFrameArray:
+  - {fileID: -9113651113142064581, guid: e05ae1b35270d884ba1802f41cad8dcf, type: 3}
+  - {fileID: -2121416522047709975, guid: e05ae1b35270d884ba1802f41cad8dcf, type: 3}
+  - {fileID: -8908403923166148478, guid: e05ae1b35270d884ba1802f41cad8dcf, type: 3}
+  flyAnimationFrameArray:
+  - {fileID: 2393225201737129349, guid: d985fc3f1f701cc4cac36dec9a14ce9f, type: 3}
+  - {fileID: 8555743247297002860, guid: d985fc3f1f701cc4cac36dec9a14ce9f, type: 3}
   healthBar: {fileID: 1381383731}
 --- !u!1 &1620750782
 GameObject:
