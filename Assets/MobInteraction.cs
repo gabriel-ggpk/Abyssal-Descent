@@ -5,7 +5,6 @@ using UnityEngine;
 public class MobInteraction : MonoBehaviour
 {
     [Header("physics")]
-    [SerializeField] Rigidbody2D monsterRb;
     [SerializeField] float knockback = 5;
 
     [Header("attributes")]
@@ -16,7 +15,6 @@ public class MobInteraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        monsterRb = GetComponent<Rigidbody2D>();
         healthBar = gameObject.GetComponentInChildren<HealthBar>();
         healthSystem = new HealthSystem(life);
 

@@ -3,10 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
-{
-    [Header("Attirbutes")]
-    [SerializeField] int damage = 1;
-    [SerializeField] int life = 1;
+{ 
 
     [Header("Pathfinding")]
     public Transform target;

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Player : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 7f;
@@ -21,9 +21,7 @@ public class Player : MonoBehaviour {
     {
         playerHealthSystem = new HealthSystem(100);
 
-
         healthBar.Setup(playerHealthSystem);
-        playerHealthSystem.Damage(50);
     }
 
     private void Update () {
