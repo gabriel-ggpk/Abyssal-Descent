@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -45,9 +41,19 @@ public class Player : MonoBehaviour {
         }
         }
     }
+
+    private void FixedUpdate () {
+
+        // Handle sprite direction
+        if (rigidBody.velocity.x > 0.05f) {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        } else if (rigidBody.velocity.x < -0.05f) {
+            transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+    }
     
     // Check if player is grounded
-    private bool IsGrounded() {
+    public bool IsGrounded() {
         float extraDistance = .1f;
         RaycastHit2D raycastHit = Physics2D.Raycast(capCollider2D.bounds.center, Vector2.down, capCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
         return raycastHit.collider != null;
