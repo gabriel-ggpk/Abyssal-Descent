@@ -10,8 +10,6 @@ public class GameHandler : MonoBehaviour {
     [SerializeField] private Sprite[] flyAnimationFrameArray;
 
 
-    public HealthBar healthBar;
-
     private enum AnimationType {
         Idle,
         Walk,
@@ -24,8 +22,6 @@ public class GameHandler : MonoBehaviour {
     private bool isFlying = false;
 
     private void Start() {
-        HealthSystem healthSystem = new HealthSystem(100);
-        healthBar.Setup(healthSystem);
         PlayAnimation(AnimationType.Idle);
     }
  
