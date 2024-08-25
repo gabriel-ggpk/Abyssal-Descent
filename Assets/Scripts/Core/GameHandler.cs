@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour {
 
+    [Header("Animation Controller")]
     [SerializeField] private Player player;
     [SerializeField] private SpriteAnimator spriteAnimator;
     [SerializeField] private Sprite[] idleAnimationFrameArray;
@@ -9,6 +11,9 @@ public class GameHandler : MonoBehaviour {
     [SerializeField] private Sprite[] jumpAnimationFrameArray;
     [SerializeField] private Sprite[] flyAnimationFrameArray;
 
+    [Header("Pause Menu Controller")]
+    [SerializeField] private GameObject pauseMenuContainer;
+    private bool isPaused = false;
 
     private enum AnimationType {
         Idle,
@@ -58,6 +63,17 @@ public class GameHandler : MonoBehaviour {
             PlayAnimation(AnimationType.Idle);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
+            isPaused = true;
+            pauseMenuContainer.SetActive(true);
+            Time.timeScale = 0f;
+        }
+
+        if (player.playerHealthSystem.GetHealth() == 0) {
+            Time.timeScale = 0f;
+            SceneManager.LoadScene("GameOverScene");
+        }
+
     }
  
     private void PlayAnimation(AnimationType animationType) {
@@ -79,6 +95,15 @@ public class GameHandler : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    public void Unpause() {
+        isPaused = false;
+        Time.timeScale = 1f;
+    }
+
+    public void LoadMenuScene() {
+        SceneManager.LoadScene("MenuScene");
     }
 
 }
