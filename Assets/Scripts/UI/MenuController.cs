@@ -33,6 +33,7 @@ public class MenuController : MonoBehaviour {
     [SerializeField] private GameObject noSaveGameDialog = null;
 
     public void NewGameDialogYes() {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(newGameLevel);
     }
 
