@@ -14,7 +14,6 @@ public class GameHandler : MonoBehaviour {
     [Header("Pause Menu Controller")]
     [SerializeField] private GameObject pauseMenuContainer;
     private bool isPaused = false;
-   
 
     private enum AnimationType {
         Idle,
@@ -70,6 +69,11 @@ public class GameHandler : MonoBehaviour {
             Time.timeScale = 0f;
         }
 
+        if (player.playerHealthSystem.GetHealth() == 0) {
+            Time.timeScale = 0f;
+            SceneManager.LoadScene("GameOverScene");
+        }
+
     }
  
     private void PlayAnimation(AnimationType animationType) {
@@ -101,4 +105,5 @@ public class GameHandler : MonoBehaviour {
     public void LoadMenuScene() {
         SceneManager.LoadScene("MenuScene");
     }
+
 }
