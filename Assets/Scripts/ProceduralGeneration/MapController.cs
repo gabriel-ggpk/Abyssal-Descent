@@ -2,114 +2,145 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static TerrainGenerator;
 
 namespace Assets.Scripts.ProceduralGeneration
 {
     public class MapController : MonoBehaviour
     {
-
         [Header("Tools")]
         [SerializeField] private bool regen = false;
+
         [Header("Tile settings")]
         [SerializeField] private Tilemap tilemap;
         [SerializeField] private TileBase tileMapHighNoiseTile;
         [SerializeField] private TileBase tileMapLowNoiseTile;
         [SerializeField] private bool inverseRender = false;
 
-
         [Header("Map basic Settings")]
-        [SerializeField] private int width;
-        [SerializeField] private int height;
-        [SerializeField] private float scale;
-        [SerializeField] private float frequency = 0.1f;
-        [SerializeField] private int seed;
-        [SerializeField] private NoiseType noiseType;
         [Range(0, 255)]
         [SerializeField] private float thresHold;
         [SerializeField] private Vector2 offset;
+        [SerializeField] private int seed;
 
-        [Header("Voironoi/Worley Noise Settings")]
-        [SerializeField] private int numCells;
+        [Header("TileMap removal test")]
+        [SerializeField] private bool remove = false;
+        [SerializeField] private Vector3Int tilePosition;
 
-        [Header("FBM Noise Settings")]
-        [SerializeField] private int octaves;
-        [Range(0, 1)]
-        [SerializeField] private float persistence;
-        [SerializeField] private float lacunarity;
-
+        private bool mapRendered = false;
+        private bool pathMapped = false;
         private Vector2 spawnPoint;
-        
-        public Vector2 getSpawnPoint() { return spawnPoint; }
 
-        public enum NoiseType { Perlin, Voronoi, Worley, FBM }
+        public Vector2 GetSpawnPoint() => spawnPoint;
 
-        void Start()
+        private void Start()
         {
-            StartCoroutine(BuildMap());
-           
+            GenerateAndRenderMap();
+            tilemap.CompressBounds();
+            tilemap.RefreshAllTiles();
+            mapRendered = true;
         }
+
+        private void LateUpdate()
+        {
+            if (mapRendered && !pathMapped)
+            {
+                AstarPath.active.Scan();
+                pathMapped = true;
+            }
+        }
+
         private void Update()
+        {
+            HandleMapRegeneration();
+            HandleTileRemoval();
+        }
+
+        private void HandleMapRegeneration()
         {
             if (regen)
             {
-                BuildMap();
+                GenerateAndRenderMap();
+                tilemap.CompressBounds();
+                tilemap.RefreshAllTiles();
                 regen = false;
+                pathMapped = false;
             }
-
         }
-  
-        private IEnumerator BuildMap()
-        {
-            TerrainGenerator terrainGenerator = new TerrainGenerator(width, height, scale, frequency, seed, noiseType, numCells, octaves, persistence, lacunarity, offset);
-            float[,] noiseMap = terrainGenerator.GenerateTerrain();
 
+        private void HandleTileRemoval()
+        {
+            Vector3Int clickedTilePosition = GetTilePositionByClick();
+            if (clickedTilePosition != Vector3Int.zero)
+            {
+                RemoveTile(clickedTilePosition);
+                pathMapped = false;
+            }
+        }
+
+        private void GenerateAndRenderMap()
+        {
+            TerrainGenerator terrainGenerator = new TerrainGenerator();
+            float[,] noiseMap = terrainGenerator.buildNoiseMap(seed);
+            RenderMap(noiseMap);
+        }
+
+        private void RenderMap(float[,] noiseMap)
+        {
             for (int y = 0; y < noiseMap.GetLength(1); y++)
             {
                 for (int x = 0; x < noiseMap.GetLength(0); x++)
                 {
-                    // Define o tile com base no valor do noise
                     TileBase tile = DetermineTile(noiseMap[x, y]);
-
-                    // Define a posição do tile no Tilemap
-                    Vector3Int tilePosition = new Vector3Int(x + (int) offset.x, y + (int) offset.y, 0);
-
-                    // Define o tile no Tilemap
+                    Vector3Int tilePosition = new Vector3Int(x + (int)offset.x, y + (int)offset.y, 0);
                     tilemap.SetTile(tilePosition, tile);
                 }
             }
-            yield return new WaitForSeconds(0.1f);
-            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaa");
-            AstarPath.active.Scan();
         }
 
         private TileBase DetermineTile(float noiseValue)
         {
-            if (inverseRender)
+            bool isHighNoise = inverseRender ? noiseValue < thresHold : noiseValue > thresHold;
+            return isHighNoise ? tileMapHighNoiseTile : tileMapLowNoiseTile;
+        }
+
+        private Vector3Int GetTilePositionByClick()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                if (noiseValue < thresHold)
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                return tilemap.WorldToCell(mouseWorldPos);
+            }
+            return Vector3Int.zero;
+        }
+
+        public void RemoveTile(Vector3Int tilePosition)
+        {
+            if (tilemap == null)
+            {
+                Debug.LogError("Tilemap não fornecido!");
+                return;
+            }
+
+            if (tilemap.HasTile(tilePosition))
+            {
+                var tilemapCollider = tilemap.GetComponent<TilemapCollider2D>();
+                if (tilemapCollider != null)
                 {
-                    // Retorna o tile específico para valores de noise altos
-                    return tileMapHighNoiseTile;
+                    tilemapCollider.enabled = false;
                 }
-                else
+
+                // Modifique os tiles aqui
+                tilemap.SetTile(tilePosition, null);
+                if (tilemapCollider != null)
                 {
-                    // Retorna o tile padrão para valores de noise baixos
-                    return tileMapLowNoiseTile;
+                    tilemapCollider.enabled = true;
                 }
+
+                Debug.Log($"Tile removido na posição {tilePosition}");
             }
             else
             {
-                if (noiseValue > thresHold)
-                {
-                    // Retorna o tile específico para valores de noise altos
-                    return tileMapHighNoiseTile;
-                }
-                else
-                {
-                    // Retorna o tile padrão para valores de noise baixos
-                    return tileMapLowNoiseTile;
-                }
+                Debug.Log($"Nenhum tile encontrado na posição {tilePosition}");
             }
         }
     }
