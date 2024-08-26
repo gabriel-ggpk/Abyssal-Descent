@@ -12,8 +12,8 @@ public class TerrainGenerator
     {
         NoiseGenerator noiseGenerator = new NoiseGenerator();
 
-        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(100, 100, 20, 2, 1.0f, 1.0f, seed, Vector2.zero);
-        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(100, 100, 24, 600, seed);
+        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(100, 50, 20, 2, 1.0f, 1.0f, seed, Vector2.zero);
+        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(100, 50, 24, 600, seed);
         //float[,] tundranoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,13,1.5f, seed);
         //float[,] hellnoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,15,1, seed);
         //float[,] voidnoise = noiseGenerator.GenerateVoronoiNoiseMatrix(500,300,38,1000, seed);

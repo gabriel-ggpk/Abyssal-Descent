@@ -25,6 +25,14 @@ namespace Assets.Scripts.ProceduralGeneration
         [SerializeField] private Vector2 offset;
         [SerializeField] private int seed;
 
+        [Header("TileMap removal test")]
+        [SerializeField] private bool remove = false;
+        [SerializeField] private Vector3Int tilePosition;
+
+        private bool mapRendered = false;
+        private bool pathMapped = false;
+
+
 
 
         private Vector2 spawnPoint;
@@ -35,16 +43,36 @@ namespace Assets.Scripts.ProceduralGeneration
         {
            TerrainGenerator terrainGenerator = new TerrainGenerator();
            renderMap(terrainGenerator.buildNoiseMap(seed));
-           AstarPath.active.Scan();
+           tilemap.CompressBounds();
+           tilemap.RefreshAllTiles();
+           mapRendered = true;
         }
+
+        private void LateUpdate()
+        {
+            if (mapRendered & !pathMapped)
+            {
+                AstarPath.active.Scan();
+                pathMapped = true;
+            }
+        }
+
         private void Update()
         {
             if (regen)
             {
                 TerrainGenerator terrainGenerator = new TerrainGenerator();
                 renderMap(terrainGenerator.buildNoiseMap(seed));
-                AstarPath.active.Scan();
+                tilemap.CompressBounds();
+                tilemap.RefreshAllTiles();
                 regen = false;
+                pathMapped = false;
+            }
+            Vector3Int dynVector = GetTilePostitionByClick();
+            if (dynVector!=Vector3Int.zero)
+            {
+                RemoveTile(dynVector);
+                pathMapped = false;
             }
         }
         public void RemoveTile(Vector3Int tilePosition)
@@ -58,7 +86,6 @@ namespace Assets.Scripts.ProceduralGeneration
             if (tilemap.HasTile(tilePosition))
             {
                 tilemap.SetTile(tilePosition, null);
-                AstarPath.active.Scan();
                 Debug.Log($"Tile removido na posição {tilePosition}");
             }
             else
@@ -114,5 +141,22 @@ namespace Assets.Scripts.ProceduralGeneration
                 }
             }
         }
+        Vector3Int GetTilePostitionByClick()
+        {
+            // Verifica se o botão esquerdo do mouse foi clicado
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Converte a posição do mouse para as coordenadas do mundo
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                // Converte a posição do mundo para uma posição no grid do Tilemap
+                Vector3Int tilePosition = tilemap.WorldToCell(mouseWorldPos);
+
+
+                 return tilePosition;
+            }
+            return Vector3Int.zero;
+        }
     }
+
 }
