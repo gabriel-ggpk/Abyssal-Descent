@@ -2333,7 +2333,7 @@ GameObject:
   - component: {fileID: 2145040344}
   - component: {fileID: 2145040345}
   m_Layer: 8
-  m_Name: lighting test
+  m_Name: Enviroment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2611,7 +2611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   regen: 0
   tilemap: {fileID: 2145040339}
-  tileMapHighNoiseTile: {fileID: 11400000, guid: d71a3a5cfff47834b9244aa14120de92, type: 2}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: 4a94cf544b80d774eb4c5cb8523a14cf, type: 2}
   tileMapLowNoiseTile: {fileID: 0}
   inverseRender: 0
   width: 50
