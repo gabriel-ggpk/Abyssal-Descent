@@ -6,16 +6,21 @@ public class Player : MonoBehaviour {
     [SerializeField] private float jump = 400f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
+    [SerializeField] private GameObject pickaxe;
+    private Animator animator;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
     private bool enableMovement = true;
     private bool isInvincible = false;
+    private bool isAttacking = false;
 
     public HealthBar healthBar;
     public HealthSystem playerHealthSystem;
     private void Awake () {
         rigidBody = transform.GetComponent<Rigidbody2D>();
         capCollider2D = transform.GetComponent<CapsuleCollider2D>();
+        animator = pickaxe.GetComponent<Animator>();
+
     }
     private void Start ()
     {
@@ -37,6 +42,11 @@ public class Player : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
             rigidBody.AddForce(new Vector2(rigidBody.velocity.x, jump));
         }
+        if(Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("attack");
+                attack();
+            }
         }
     }
 
@@ -69,5 +79,10 @@ public class Player : MonoBehaviour {
         enableMovement = true;
         yield return new WaitForSeconds(1);
         isInvincible = false;
+    }
+    public void attack()
+    {
+
+        animator.SetTrigger("Attack");
     }
 }
