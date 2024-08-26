@@ -1,74 +1,53 @@
 ﻿using Pathfinding;
 using System.Collections;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 using static TerrainGenerator;
 
 namespace Assets.Scripts.ProceduralGeneration
 {
-    public class MapController : MonoBehaviour
+    public class MapPerlinTestingTool : MonoBehaviour
     {
 
-        [Header("Tools")]
+        [Header("Voronoy noise settings")]
+        [SerializeField] private int width;
+        [SerializeField] private int height;
+        [SerializeField] private int scale;
+        [SerializeField] private float frequency;
+        [SerializeField] private int seed;
+
+        [Header("Render settings")]
         [SerializeField] private bool regen = false;
-        [Header("Tile settings")]
         [SerializeField] private Tilemap tilemap;
         [SerializeField] private TileBase tileMapHighNoiseTile;
         [SerializeField] private TileBase tileMapLowNoiseTile;
-        [SerializeField] private bool inverseRender = false;
-
-
-        [Header("Map basic Settings")]
         [Range(0, 255)]
         [SerializeField] private float thresHold;
         [SerializeField] private Vector2 offset;
-        [SerializeField] private int seed;
+        [SerializeField] private bool inverseRender = false;
 
-
-
-        private Vector2 spawnPoint;
-        
-        public Vector2 getSpawnPoint() { return spawnPoint; }
+        //int width, int height, float scale, float frequency, int seed
 
         void Start()
         {
-           TerrainGenerator terrainGenerator = new TerrainGenerator();
-           renderMap(terrainGenerator.buildNoiseMap(seed));
-           AstarPath.active.Scan();
+            BuildMap();
         }
         private void Update()
         {
             if (regen)
             {
-                TerrainGenerator terrainGenerator = new TerrainGenerator();
-                renderMap(terrainGenerator.buildNoiseMap(seed));
-                AstarPath.active.Scan();
+                BuildMap();
                 regen = false;
             }
-        }
-        public void RemoveTile(Vector3Int tilePosition)
-        {
-            if (tilemap == null)
-            {
-                Debug.LogError("Tilemap não fornecido!");
-                return;
-            }
 
-            if (tilemap.HasTile(tilePosition))
-            {
-                tilemap.SetTile(tilePosition, null);
-                AstarPath.active.Scan();
-                Debug.Log($"Tile removido na posição {tilePosition}");
-            }
-            else
-            {
-                Debug.Log($"Nenhum tile encontrado na posição {tilePosition}");
-            }
         }
-
-        private void renderMap(float[,] noiseMap)
+  
+        private void BuildMap()
         {
+            NoiseGenerator noiseGenerator = new NoiseGenerator();
+            float[,] noiseMap = noiseGenerator.GeneratePerlinNoiseMatrix(width, height, scale, frequency, seed);
+
             for (int y = 0; y < noiseMap.GetLength(1); y++)
             {
                 for (int x = 0; x < noiseMap.GetLength(0); x++)

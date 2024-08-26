@@ -178,6 +178,11 @@ GameObject:
   - component: {fileID: 384083883}
   - component: {fileID: 384083885}
   - component: {fileID: 384083884}
+  - component: {fileID: 384083886}
+  - component: {fileID: 384083887}
+  - component: {fileID: 384083888}
+  - component: {fileID: 384083889}
+  - component: {fileID: 384083890}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -287,6 +292,124 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &384083886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384083882}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587ea108292e32641a6fcb96be1e1a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 300
+  height: 300
+  scale: 12
+  numCells: 0
+  seed: 123
+  regen: 0
+  tilemap: {fileID: 384083885}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: e9f0e6ca4061767429cb403c9953dbf7, type: 2}
+  tileMapLowNoiseTile: {fileID: 0}
+  thresHold: 0
+  offset: {x: 0, y: 0}
+  inverseRender: 0
+--- !u!114 &384083887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384083882}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccdc3e8301a33f8469a46e1a7ad761ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 300
+  height: 300
+  scale: 12
+  numCells: 50
+  seed: 123
+  regen: 0
+  tilemap: {fileID: 384083885}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: e9f0e6ca4061767429cb403c9953dbf7, type: 2}
+  tileMapLowNoiseTile: {fileID: 0}
+  thresHold: 135.1
+  offset: {x: 0, y: 0}
+  inverseRender: 0
+--- !u!114 &384083888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384083882}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812bbde2b3e6d6849a4431c46a979f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 300
+  height: 500
+  scale: 12
+  frequency: 12
+  seed: 1213
+  regen: 0
+  tilemap: {fileID: 384083885}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: e9f0e6ca4061767429cb403c9953dbf7, type: 2}
+  tileMapLowNoiseTile: {fileID: 0}
+  thresHold: 131.6
+  offset: {x: 0, y: 0}
+  inverseRender: 0
+--- !u!114 &384083889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384083882}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2ed3e1cf31d774c8bbb0cc96d955d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 500
+  height: 300
+  scale: 8
+  octaves: 8
+  persistence: 8
+  lacunarity: 8
+  seed: 123
+  regen: 0
+  tilemap: {fileID: 384083885}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: f060bf7ca5a01314e84ae091f44eed6c, type: 2}
+  tileMapLowNoiseTile: {fileID: 0}
+  thresHold: 127
+  offset: {x: 0, y: 0}
+  inverseRender: 0
+--- !u!114 &384083890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384083882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823e95c84a98cee4796240b682bc4bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regen: 0
+  tilemap: {fileID: 384083885}
+  tileMapHighNoiseTile: {fileID: 11400000, guid: e9f0e6ca4061767429cb403c9953dbf7, type: 2}
+  tileMapLowNoiseTile: {fileID: 0}
+  inverseRender: 0
+  thresHold: 127
+  offset: {x: 0, y: 0}
+  seed: 123123
 --- !u!1 &510697232
 GameObject:
   m_ObjectHideFlags: 0

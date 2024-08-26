@@ -7,13 +7,19 @@ public class NoiseGenerator
     public float[,] GeneratePerlinNoiseMatrix(int width, int height, float scale, float frequency, int seed)
     {
         float[,] noiseMatrix = new float[width, height];
+        System.Random random = new System.Random(seed);
+
+        // Gerar offset aleatório baseado no seed para cada eixo
+        float offsetX = random.Next(-100000, 100000);
+        float offsetY = random.Next(-100000, 100000);
 
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                float xCoord = (x + seed) * scale * frequency;
-                float yCoord = (y + seed) * scale * frequency;
+                // Incorporar o offset ao cálculo do Perlin Noise para torná-lo reprodutível
+                float xCoord = (x + offsetX) / scale * frequency;
+                float yCoord = (y + offsetY) / scale * frequency;
                 noiseMatrix[x, y] = Mathf.PerlinNoise(xCoord, yCoord) * 255f;
             }
         }
@@ -21,73 +27,91 @@ public class NoiseGenerator
         return noiseMatrix;
     }
 
+
     // Voronoi
     public float[,] GenerateVoronoiNoiseMatrix(int width, int height, float scale, int numCells, int seed)
     {
-        float[,] noiseMatrix = new float[width, height];
-        Random.InitState(seed);
+        float[,] map = new float[width, height];
+        System.Random random = new System.Random(seed);
 
-        for (int x = 0; x < width; x++)
+        // Gerar centros das células Voronoi
+        Vector2[] cellCenters = new Vector2[numCells];
+        for (int i = 0; i < numCells; i++)
         {
-            for (int y = 0; y < height; y++)
-            {
-                float minDist = float.MaxValue;
+            float x = (float)random.NextDouble() * width;
+            float y = (float)random.NextDouble() * height;
+            cellCenters[i] = new Vector2(x, y);
+        }
 
+        // Gerar matriz com base no algoritmo de Voronoi
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Vector2 point = new Vector2(x, y);
+                float minDistance = float.MaxValue;
+                int closestCell = 0;
+
+                // Encontrar a célula numCells mais próxima
                 for (int i = 0; i < numCells; i++)
                 {
-                    float cellX = Random.Range(0f, 1f);
-                    float cellY = Random.Range(0f, 1f);
-                    float dist = Vector2.Distance(new Vector2(x, y) * scale, new Vector2(cellX, cellY));
-                    if (dist < minDist)
+                    float distance = Vector2.Distance(point, cellCenters[i]);
+                    if (distance < minDistance)
                     {
-                        minDist = dist;
+                        minDistance = distance;
+                        closestCell = i;
                     }
                 }
 
-                // Normaliza a distância mínima para o intervalo [0, 1] e depois escala para [0, 100]
-                noiseMatrix[x, y] = Mathf.InverseLerp(0, minDist, minDist) * 255f;
+                // Usar a distância para calcular o valor na matriz (entre 0 e 255)
+                float value = Mathf.InverseLerp(0, width / scale, minDistance);
+                map[x, y] = Mathf.Lerp(0, 255, value);
             }
         }
 
-        return noiseMatrix;
+        return map;
     }
 
     // Worley
     public float[,] GenerateWorleyNoiseMatrix(int width, int height, float scale, int numCells, int seed)
     {
-        float[,] noiseMatrix = new float[width, height];
-        Random.InitState(seed);
+        float[,] map = new float[width, height];
+        System.Random random = new System.Random(seed);
 
-        for (int x = 0; x < width; x++)
+        // Gerar centros das células Worley
+        Vector2[] cellCenters = new Vector2[numCells];
+        for (int i = 0; i < numCells; i++)
         {
-            for (int y = 0; y < height; y++)
-            {
-                float minDist = float.MaxValue;
-                float secondMinDist = float.MaxValue;
+            float x = (float)random.NextDouble() * width;
+            float y = (float)random.NextDouble() * height;
+            cellCenters[i] = new Vector2(x, y);
+        }
 
+        // Gerar matriz com base no algoritmo Worley
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                Vector2 point = new Vector2(x, y);
+                float minDistance = float.MaxValue;
+
+                // Encontrar a distância para o centro de célula mais próximo
                 for (int i = 0; i < numCells; i++)
                 {
-                    float cellX = Random.Range(0f, 1f);
-                    float cellY = Random.Range(0f, 1f);
-                    float dist = Vector2.Distance(new Vector2(x, y) * scale, new Vector2(cellX, cellY));
-
-                    if (dist < minDist)
+                    float distance = Vector2.Distance(point, cellCenters[i]);
+                    if (distance < minDistance)
                     {
-                        secondMinDist = minDist;
-                        minDist = dist;
-                    }
-                    else if (dist < secondMinDist)
-                    {
-                        secondMinDist = dist;
+                        minDistance = distance;
                     }
                 }
 
-                // Normaliza a diferença das distâncias para o intervalo [0, 1] e depois escala para [0, 100]
-                noiseMatrix[x, y] = Mathf.InverseLerp(0, secondMinDist - minDist, secondMinDist - minDist) * 255f;
+                // Normalizar e escalar o valor da distância para o intervalo de 0 a 255
+                float value = Mathf.InverseLerp(0, width / scale, minDistance);
+                map[x, y] = Mathf.Lerp(0, 255, value);
             }
         }
 
-        return noiseMatrix;
+        return map;
     }
 
     // Fractal Brownian Motion (fBM)
