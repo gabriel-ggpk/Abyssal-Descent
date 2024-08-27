@@ -44,7 +44,7 @@ namespace Assets.Scripts.ProceduralGeneration
         {
             if (mapRendered && !pathMapped)
             {
-                AstarPath.active.Scan();
+               // AstarPath.active.Scan();
                 pathMapped = true;
             }
         }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.ProceduralGeneration
         private void Update()
         {
             HandleMapRegeneration();
-            HandleTileRemoval();
+           // HandleTileRemoval();
         }
 
         private void HandleMapRegeneration()
@@ -123,18 +123,13 @@ namespace Assets.Scripts.ProceduralGeneration
 
             if (tilemap.HasTile(tilePosition))
             {
-                var tilemapCollider = tilemap.GetComponent<TilemapCollider2D>();
-                if (tilemapCollider != null)
+      
+                if(tilemap.GetTile(tilePosition) != null)
                 {
-                    tilemapCollider.enabled = false;
-                }
 
-                // Modifique os tiles aqui
                 tilemap.SetTile(tilePosition, null);
-                if (tilemapCollider != null)
-                {
-                    tilemapCollider.enabled = true;
                 }
+               
 
                 Debug.Log($"Tile removido na posição {tilePosition}");
             }

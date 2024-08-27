@@ -1,9 +1,5 @@
-﻿using Pathfinding;
-using System.Collections;
-using UnityEditor.Profiling.Memory.Experimental;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-using static TerrainGenerator;
 
 namespace Assets.Scripts.ProceduralGeneration
 {

@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Tilemaps;
+using Assets.Scripts.ProceduralGeneration;
 public class Player : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 7f;
@@ -7,6 +9,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
     [SerializeField] private GameObject pickaxe;
+    [SerializeField] private Tilemap enviroment;
     private Animator animator;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
@@ -66,7 +69,7 @@ public class Player : MonoBehaviour {
         RaycastHit2D raycastHit = Physics2D.Raycast(capCollider2D.bounds.center, Vector2.down, capCollider2D.bounds.extents.y + extraDistance, tileMapLayerMask);
         return raycastHit.collider != null;
     }
-    public IEnumerator getHit (Vector2 force)
+    public IEnumerator getHit (Vector2 force,int damage)
     {
         if (isInvincible) yield break;//check later
 
@@ -74,15 +77,23 @@ public class Player : MonoBehaviour {
         enableMovement = false;
         isInvincible = true;
         gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
-        playerHealthSystem.Damage(10);
+        playerHealthSystem.Damage(damage);
         yield return new WaitForSeconds(0.5f);
         enableMovement = true;
         yield return new WaitForSeconds(1);
         isInvincible = false;
     }
+
     public void attack()
     {
-
         animator.SetTrigger("Attack");
+        MapController mapController = enviroment.GetComponent<MapController>();
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float distance = Vector2.Distance(transform.position, mouseWorldPos);
+        Debug.Log(distance);
+        if (mapController != null &&  distance<2)
+        {
+            mapController.RemoveTile(enviroment.WorldToCell(mouseWorldPos));
+        }
     }
 }

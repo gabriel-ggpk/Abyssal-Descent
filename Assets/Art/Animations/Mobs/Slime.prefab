@@ -466,4 +466,4 @@ MonoBehaviour:
     m_Bits: 256
   knockback: 5
   healthBar: {fileID: 0}
-  life: 100
+  life: 15

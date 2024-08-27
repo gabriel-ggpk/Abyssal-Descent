@@ -45,6 +45,8 @@ public class EnemyAI : MonoBehaviour
     private bool enableMovement = true;
     private bool isInvincible = false;
 
+
+
     public void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -189,7 +191,7 @@ public class EnemyAI : MonoBehaviour
         {
             Vector2 direction = (collisionObject.transform.position - transform.position).normalized;
             Player player = collisionObject.GetComponent<Player>();
-            player.StartCoroutine(player.getHit(direction * knockback));
+            player.StartCoroutine(player.getHit(direction * knockback, 34));
 
         }
     }
@@ -201,6 +203,12 @@ public class EnemyAI : MonoBehaviour
         isInvincible = true;
         gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
         healthSystem.Damage(10);
+        if (healthSystem.GetHealth() == 0)
+        {
+            Destroy(gameObject);
+            StopAllCoroutines();
+        }
+     
         yield return new WaitForSeconds(0.5f);
         enableMovement = true;
         yield return new WaitForSeconds(1);
