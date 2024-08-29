@@ -34,6 +34,19 @@ public class EnemyAI : MonoBehaviour
     Collider2D collider2d;
     private bool isOnCoolDown;
 
+    [Header("physics")]
+    [SerializeField] float knockback = 5;
+
+    [Header("attributes")]
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] int life = 100;
+
+    private HealthSystem healthSystem;
+    private bool enableMovement = true;
+    private bool isInvincible = false;
+
+
+
     public void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -45,6 +58,10 @@ public class EnemyAI : MonoBehaviour
         GameObject targetGO = GameObject.FindGameObjectWithTag("Player");
         if (targetGO != null) target = targetGO.GetComponent<Transform>();
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
+        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+        healthSystem = new HealthSystem(life);
+
+        healthBar.Setup(healthSystem);
     }
 
     private void FixedUpdate()
@@ -81,7 +98,7 @@ public class EnemyAI : MonoBehaviour
         {
             return;
         }
-
+        if (!enableMovement) return;
         // Direction Calculation
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed;
@@ -152,5 +169,45 @@ public class EnemyAI : MonoBehaviour
         isOnCoolDown = true;
         yield return new WaitForSeconds(jumpCD);
         isOnCoolDown = false;
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject collisionObject = collision.gameObject;
+        if (collisionObject.CompareTag("Weapon"))
+        {
+            Pickaxe pickaxe = collisionObject.GetComponent<Pickaxe>();
+            Vector2 direction = ( transform.position- collisionObject.transform.position).normalized;
+            StartCoroutine(getHit(direction * knockback));
+
+
+        }
+        else if (collisionObject.CompareTag("Player"))
+        {
+            Vector2 direction = (collisionObject.transform.position - transform.position).normalized;
+            Player player = collisionObject.GetComponent<Player>();
+            player.StartCoroutine(player.getHit(direction * knockback, 34));
+
+        }
+    }
+    public IEnumerator getHit(Vector2 force)
+    {
+        if (isInvincible) yield break;
+
+        enableMovement = false;
+        isInvincible = true;
+        gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+        healthSystem.Damage(10);
+        if (healthSystem.GetHealth() == 0)
+        {
+            Destroy(gameObject);
+            StopAllCoroutines();
+        }
+     
+        yield return new WaitForSeconds(0.5f);
+        enableMovement = true;
+        yield return new WaitForSeconds(1);
+        isInvincible = false;
     }
 }

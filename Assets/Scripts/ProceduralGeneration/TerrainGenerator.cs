@@ -12,16 +12,16 @@ public class TerrainGenerator
     {
         NoiseGenerator noiseGenerator = new NoiseGenerator();
 
-        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(100, 50, 20, 2, 1.0f, 1.0f, seed, Vector2.zero);
-        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(100, 50, 24, 600, seed);
+        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(500,300, 20, 2, 1.0f, 1.0f, seed, Vector2.zero);
+        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(500, 300, 32, 600, seed);
         //float[,] tundranoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,13,1.5f, seed);
         //float[,] hellnoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,15,1, seed);
         //float[,] voidnoise = noiseGenerator.GenerateVoronoiNoiseMatrix(500,300,38,1000, seed);
         List<float[,]> noisemaps = new List<float[,]>();
-        float[,] noiseTransition = new float[100, 6];
+        float[,] noiseTransition = new float[500, 6];
         for (int x = 0; x < 6; x++)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 500; i++)
             {
                 noiseTransition[i, x] = 255f;
             }
@@ -33,9 +33,9 @@ public class TerrainGenerator
         //noisemaps.Add(noiseTransition);
         //noisemaps.Add(tundranoise);
         //noisemaps.Add(noiseTransition);
-        noisemaps.Add(cavenoise);
-        noisemaps.Add(noiseTransition);
         noisemaps.Add(poisoncavenoise);
+        noisemaps.Add(noiseTransition);
+        noisemaps.Add(cavenoise);
         //noisemaps.Add(noiseTransition);
         return StackMatricesVertically(noisemaps);
     }

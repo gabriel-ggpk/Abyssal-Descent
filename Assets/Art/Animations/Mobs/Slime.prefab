@@ -394,9 +394,6 @@ PrefabInstance:
       addedObject: {fileID: 8833834092696011545}
     - targetCorrespondingSourceObject: {fileID: 6682441240006220712, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1886668257744863946}
-    - targetCorrespondingSourceObject: {fileID: 6682441240006220712, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7005391456146570478}
   m_SourcePrefab: {fileID: 100100000, guid: 3a34dd98ddbb10b4892879d754577706, type: 3}
 --- !u!4 &1868641123124499196 stripped
@@ -437,22 +434,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: 1
---- !u!114 &1886668257744863946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3701703422517306458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a420cfef563ac9c41aeed23177f588b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterRb: {fileID: 0}
-  knockback: 10
-  healthBar: {fileID: 0}
-  life: 100
 --- !u!114 &7005391456146570478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,8 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba7929f038a7254690e4a14c5a2f8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  life: 1
   target: {fileID: 0}
   activateDistance: 20
   pathUpdateSeconds: 0.5
@@ -485,3 +464,6 @@ MonoBehaviour:
   tileMapLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  knockback: 5
+  healthBar: {fileID: 0}
+  life: 15

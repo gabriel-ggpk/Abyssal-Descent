@@ -32,7 +32,7 @@ public class GameHandler : MonoBehaviour {
  
     private void Update() {
         bool isMoving = false;
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A)) {// use vel
             isMoving = true;
         }
 
