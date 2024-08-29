@@ -178,12 +178,8 @@ public class EnemyAI : MonoBehaviour
         if (collisionObject.CompareTag("Weapon"))
         {
             Pickaxe pickaxe = collisionObject.GetComponent<Pickaxe>();
-            if (pickaxe.isAttacking)
-            {
-                Vector2 direction = ( transform.position- collisionObject.transform.position).normalized;
-
-                StartCoroutine(getHit(direction * knockback));
-            }
+            Vector2 direction = ( transform.position- collisionObject.transform.position).normalized;
+            StartCoroutine(getHit(direction * knockback));
 
 
         }

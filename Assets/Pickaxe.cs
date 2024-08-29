@@ -3,7 +3,6 @@ using UnityEngine;
 public class Pickaxe : MonoBehaviour
 {
     private Player player;
-    public bool isAttacking = false;
     void Start()
     {
         player = GetComponentInParent<Player>(); // Assuming PlayerAttack is the script on the parent with StartAttack
@@ -13,7 +12,8 @@ public class Pickaxe : MonoBehaviour
     {
         if (player != null)
         {
-           isAttacking = true;
+        PolygonCollider2D collider = gameObject.GetComponent<PolygonCollider2D>();
+            collider.enabled = true;
         }
     }
 
@@ -21,7 +21,8 @@ public class Pickaxe : MonoBehaviour
     {
         if (player != null)
         {
-            isAttacking = false;
+            PolygonCollider2D collider = gameObject.GetComponent<PolygonCollider2D>();
+            collider.enabled = false;
         }
     }
 }
