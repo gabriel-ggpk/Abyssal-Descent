@@ -15,6 +15,10 @@ public class GameHandler : MonoBehaviour {
     [SerializeField] private GameObject pauseMenuContainer;
     private bool isPaused = false;
 
+    [Header("Sound Effects")]
+    [SerializeField] private AudioSource walkSFX;
+    [SerializeField] private AudioSource jumpSFX;
+
     private enum AnimationType {
         Idle,
         Walk,
@@ -39,6 +43,7 @@ public class GameHandler : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGrounded() && !isJumping && !isFlying) {
             isJumping = true;
             PlayAnimation(AnimationType.Jump);
+            jumpSFX.Play();
         }
 
         if (isJumping && !player.IsGrounded() && !isFlying) { 
@@ -59,8 +64,12 @@ public class GameHandler : MonoBehaviour {
             }
         } else if (isMoving && player.IsGrounded()) {
             PlayAnimation(AnimationType.Walk);
+            if (!walkSFX.isPlaying) {
+                walkSFX.Play();
+            }
         } else {
             PlayAnimation(AnimationType.Idle);
+            walkSFX.Stop();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
