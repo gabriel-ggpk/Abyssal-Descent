@@ -32,6 +32,23 @@ public class MenuController : MonoBehaviour {
     private string levelToLoad;
     [SerializeField] private GameObject noSaveGameDialog = null;
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip hoverSound;
+    [SerializeField] private AudioClip clickSound;
+    [SerializeField] private AudioSource audioSource;
+
+    public void PlayHoverSound() {
+        if (hoverSound != null) {
+            audioSource.PlayOneShot(hoverSound);
+        }
+    }
+
+    public void PlayClickSound() {
+        if (clickSound != null) {
+            audioSource.PlayOneShot(clickSound);
+        }
+    }
+
     public void NewGameDialogYes() {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(newGameLevel);
@@ -82,24 +99,41 @@ public class MenuController : MonoBehaviour {
         StartCoroutine(ConfirmationBox());
     }
 
-    public void ResetButton(string MenuType) {
-        if (MenuType == "Sound") {
-            AudioListener.volume = defaultVolume;
-            volumeSlider.value = defaultVolume;
-            volumeTextValue.text = defaultVolume.ToString("0.0");
-            VolumeApply();
+    public void ResetButton(string menuType) {
+        switch (menuType) {
+            case "Sound":
+                ResetVolume();
+                break;
+            case "Gameplay":
+                ResetSensitivity();
+                break;
+            case "Graphics":
+                ResetBrightness();
+                break;
+            default:
+                Debug.LogWarning("Unknown menu type: " + menuType);
+                break;
         }
-        if (MenuType == "Gameplay") {
-            sensTextValue.text = defaultSens.ToString("0");
-            sensSlider.value = defaultSens;
-            GameplayApply();
-        }
-        if (MenuType == "Graphics") {
-            brightnessTextValue.text = defaultBrightness.ToString("0");
-            brightnessSlide.value = defaultBrightness;
-            GraphicsApply();
-        }
-    } 
+    }
+
+    private void ResetVolume() {
+        AudioListener.volume = defaultVolume;
+        volumeSlider.value = defaultVolume;
+        volumeTextValue.text = defaultVolume.ToString("0.0");
+        VolumeApply();
+    }
+
+    private void ResetSensitivity() {
+        sensTextValue.text = defaultSens.ToString("0");
+        sensSlider.value = defaultSens;
+        GameplayApply();
+    }
+
+    private void ResetBrightness() {
+        brightnessTextValue.text = defaultBrightness.ToString("0");
+        brightnessSlide.value = defaultBrightness;
+        GraphicsApply();
+    }
 
     public IEnumerator ConfirmationBox() {
         confirmationPrompt.SetActive(true);
