@@ -23,6 +23,13 @@ public class EnemyAI : MonoBehaviour
     public bool directionLookEnabled = true;
     public float jumpCD = 1f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip hitSFX;
+    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField] private AudioClip walkSFX;
+    [SerializeField] private AudioClip deadSFX;
+    [SerializeField] private AudioSource audioSource;
+
     [SerializeField] Vector3 startOffset;
 
     private Path path;
@@ -112,6 +119,7 @@ public class EnemyAI : MonoBehaviour
                 //if (isInAir) return;
                 isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                audioSource.PlayOneShot(jumpSFX);
                 StartCoroutine(JumpCoolDown());
 
             }
@@ -199,8 +207,11 @@ public class EnemyAI : MonoBehaviour
         isInvincible = true;
         gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
         healthSystem.Damage(10);
+        audioSource.PlayOneShot(hitSFX);
         if (healthSystem.GetHealth() == 0)
         {
+            audioSource.PlayOneShot(deadSFX);
+            yield return new WaitForSeconds(1f);
             Destroy(gameObject);
             StopAllCoroutines();
         }
