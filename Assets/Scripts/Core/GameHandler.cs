@@ -16,8 +16,30 @@ public class GameHandler : MonoBehaviour {
     private bool isPaused = false;
 
     [Header("Sound Effects")]
-    [SerializeField] private AudioSource walkSFX;
-    [SerializeField] private AudioSource jumpSFX;
+    [SerializeField] private AudioSource menuAudioSource;
+    [SerializeField] private AudioSource playerAudioSource;
+    [SerializeField] private AudioClip walkSFX;
+    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField] private AudioClip hoverSFX;
+    [SerializeField] private AudioClip clickSFX;
+
+    public void PlayHoverSFX() {
+        if (hoverSFX != null) {
+            menuAudioSource.PlayOneShot(hoverSFX);
+        }
+    }
+
+    public void PlayClickSFX() {
+        if (clickSFX != null) {
+            menuAudioSource.PlayOneShot(clickSFX);
+        }
+    }
+
+    public void PlaySFX(AudioClip audioClip) {
+        if (audioClip != null) {
+            playerAudioSource.PlayOneShot(audioClip);
+        }
+    }
 
     private enum AnimationType {
         Idle,
@@ -43,7 +65,8 @@ public class GameHandler : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGrounded() && !isJumping && !isFlying) {
             isJumping = true;
             PlayAnimation(AnimationType.Jump);
-            jumpSFX.Play();
+            PlaySFX(jumpSFX);
+            //jumpSFX.Play();
         }
 
         if (isJumping && !player.IsGrounded() && !isFlying) { 
@@ -64,12 +87,13 @@ public class GameHandler : MonoBehaviour {
             }
         } else if (isMoving && player.IsGrounded()) {
             PlayAnimation(AnimationType.Walk);
-            if (!walkSFX.isPlaying) {
-                walkSFX.Play();
+            if (!playerAudioSource.isPlaying) {
+                PlaySFX(walkSFX);
+                //walkSFX.Play();
             }
         } else {
             PlayAnimation(AnimationType.Idle);
-            walkSFX.Stop();
+            playerAudioSource.Stop();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {

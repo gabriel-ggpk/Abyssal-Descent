@@ -10,6 +10,10 @@ public class Player : MonoBehaviour {
     [SerializeField] private LayerMask tileMapLayerMask;
     [SerializeField] private GameObject pickaxe;
     [SerializeField] private Tilemap enviroment;
+    [SerializeField] private AudioClip hitSFX;
+    [SerializeField] private AudioClip swipeSFX;
+    [SerializeField] private AudioSource audioSource;
+
     private Animator animator;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
@@ -49,6 +53,7 @@ public class Player : MonoBehaviour {
             {
                 Debug.Log("attack");
                 attack();
+                audioSource.PlayOneShot(swipeSFX);
             }
         }
     }
@@ -78,6 +83,7 @@ public class Player : MonoBehaviour {
         isInvincible = true;
         gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
         playerHealthSystem.Damage(damage);
+        audioSource.PlayOneShot(hitSFX);
         yield return new WaitForSeconds(0.5f);
         enableMovement = true;
         yield return new WaitForSeconds(1);
