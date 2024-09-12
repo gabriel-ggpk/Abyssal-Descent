@@ -472,7 +472,7 @@ MonoBehaviour:
   tileMapLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  knockback: 5
+  knockback: 10
   healthBar: {fileID: 0}
   life: 15
 --- !u!82 &-1118373762026569273
