@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     private bool enableMovement = true;
     private bool isInvincible = false;
     private bool facingLeft = true;
+    public int power = 1;
 
     public HealthBar healthBar;
     public HealthSystem playerHealthSystem;

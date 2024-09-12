@@ -20,6 +20,9 @@ public class GridController : MonoBehaviour
     [SerializeField] private TileBase transitionTileBase;
     [SerializeField] private TileBase powerUpTileBase;
     [SerializeField] private TileBase bedRockTileBase;
+    [SerializeField] private Player player;
+
+    [SerializeField] public CompassLogic compass;
 
     // Armazena os chunks atualmente visíveis
     private HashSet<Chunk> activeChunks = new HashSet<Chunk>();
@@ -55,6 +58,8 @@ public class GridController : MonoBehaviour
             Debug.Log(position);
         }
 
+        compass.destination = pickPowerUpTransforms[0];
+
     }
 
     // Update is called once per frame
@@ -67,9 +72,11 @@ public class GridController : MonoBehaviour
         Vector2Int clickPosition = GetMouseClickPosition();
         if (clickPosition != Vector2Int.zero)
         {
+            Debug.Log("quebrando");
             float distance = Vector2.Distance(playerTransform, clickPosition);
             if (distance < 2)
             {
+               
                 RemoveTile(clickPosition);
             }
         }
@@ -202,7 +209,11 @@ public class GridController : MonoBehaviour
 
         int noiseValue = Mathf.FloorToInt(noiseMap[tilePosition.x, -tilePosition.y]);  // Recupera o valor do noiseMap como ID
         //função que recupera a picareta do player baseado nas transitions bounds
-        if () {
+        if(noiseValue == 11 || noiseValue == 21 || noiseValue == 31 || noiseValue == 41)
+        {
+            Debug.Log("aaaaaaaa");
+            if (player.power < noiseValue) return;
+        }
             if (chunkX >= 0 && chunkX < chunkMap.GetLength(0) && chunkY >= 0 && chunkY < chunkMap.GetLength(1))
             {
                 Chunk chunk = chunkMap[chunkX, chunkY];
@@ -210,8 +221,14 @@ public class GridController : MonoBehaviour
                 chunk.RemoveTile(tileConvertPosition);
                 if (pickPowerUpTransforms.Contains(tileConvertPosition))
                 {
-                    ////APLICAR POWER UP NO PLAYER
+                pickPowerUpTransforms.RemoveAt(0);
+                player.power += 10;
+                compass.destination = pickPowerUpTransforms[0];
+                foreach (Vector2Int position in pickPowerUpTransforms)
+                {
+                    Debug.Log(position);
                 }
+
             }
         }
     }
