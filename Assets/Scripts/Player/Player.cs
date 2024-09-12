@@ -90,6 +90,10 @@ public class Player : MonoBehaviour {
         isInvincible = false;
     }
 
+    public void GetHeal(int healAmount) {
+        playerHealthSystem.Heal(healAmount);     
+    }
+
     public void attack()
     {
         animator.SetTrigger("Attack");
