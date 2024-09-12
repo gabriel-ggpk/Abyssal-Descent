@@ -9,12 +9,17 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
     [SerializeField] private GameObject pickaxe;
+    [SerializeField] private Tilemap enviroment;
+    [SerializeField] private AudioClip hitSFX;
+    [SerializeField] private AudioClip swipeSFX;
+    [SerializeField] private AudioSource audioSource;
+
     private Animator animator;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
     private bool enableMovement = true;
     private bool isInvincible = false;
-    private bool isAttacking = false;
+    private bool facingLeft = true;
 
     public HealthBar healthBar;
     public HealthSystem playerHealthSystem;
@@ -37,8 +42,8 @@ public class Player : MonoBehaviour {
 
         // Handle movement
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
-        
-        rigidBody.velocity = new Vector2(inputVector.x * moveSpeed, rigidBody.velocity.y);
+            bool isSlowed = (inputVector.x > 0 && !facingLeft || inputVector.x <= 0 && facingLeft);
+        rigidBody.velocity = new Vector2(inputVector.x * moveSpeed * (isSlowed ? 0.75f : 1f), rigidBody.velocity.y);
 
         // Handle jump
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
@@ -48,20 +53,39 @@ public class Player : MonoBehaviour {
             {
                 Debug.Log("attack");
                 attack();
+                audioSource.PlayOneShot(swipeSFX);
             }
         }
     }
 
     private void FixedUpdate () {
 
-        // Handle sprite direction
-        if (rigidBody.velocity.x > 0.05f) {
+        FlipPlayer();
+    }
+
+    private void CalcPlayerLookDirection()
+    {
+        // Get the mouse position in world space
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // Calculate the direction from the spotlight to the mouse position
+        Vector3 direction = mousePosition - transform.position;
+        if (direction.x > 0) facingLeft = true;
+        else facingLeft = false;
+    }
+    private void FlipPlayer()
+    {
+        CalcPlayerLookDirection();
+        if (facingLeft)
+        {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        } else if (rigidBody.velocity.x < -0.05f) {
+        }
+        else if (!facingLeft)
+        {
             transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
     }
-    
+
     // Check if player is grounded
     public bool IsGrounded() {
         float extraDistance = .1f;
@@ -77,10 +101,15 @@ public class Player : MonoBehaviour {
         isInvincible = true;
         gameObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
         playerHealthSystem.Damage(damage);
+        audioSource.PlayOneShot(hitSFX);
         yield return new WaitForSeconds(0.5f);
         enableMovement = true;
         yield return new WaitForSeconds(1);
         isInvincible = false;
+    }
+
+    public void GetHeal(int healAmount) {
+        playerHealthSystem.Heal(healAmount);     
     }
 
     public void attack()
