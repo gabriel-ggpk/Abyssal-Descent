@@ -1620,6 +1620,7 @@ GameObject:
   - component: {fileID: 1426879158}
   - component: {fileID: 1426879157}
   - component: {fileID: 1426879159}
+  - component: {fileID: 1426879160}
   m_Layer: 0
   m_Name: FlashLight
   m_TagString: Untagged
@@ -1705,6 +1706,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 10
+--- !u!114 &1426879160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426879156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5c9b1be9bdd434b96882b99b25cf3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lanternLight2D: {fileID: 1426879157}
+  duration: 30
 --- !u!1 &1494599937
 GameObject:
   m_ObjectHideFlags: 0
