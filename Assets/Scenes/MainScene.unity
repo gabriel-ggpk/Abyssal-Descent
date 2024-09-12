@@ -1714,6 +1714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 10
+  offset: 90
 --- !u!114 &1426879160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1728,6 +1729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lanternLight2D: {fileID: 1426879157}
   duration: 30
+  lightBar: {fileID: 0}
 --- !u!1 &1494599937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,7 +2943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1757105819
 MonoBehaviour:
   m_ObjectHideFlags: 0
