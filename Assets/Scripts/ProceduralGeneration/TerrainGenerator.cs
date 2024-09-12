@@ -8,35 +8,42 @@ using static Assets.Scripts.ProceduralGeneration.MapController;
 public class TerrainGenerator
 {
 
+    private float[,] transitionBuilder(int widht, int height, int sett)
+    {
+        float[,] noiseTransition = new float[widht, height];
+        for (int x = 0; x < height; x++)
+        {
+            for (int i = 0; i < widht; i++)
+            {
+                noiseTransition[i, x] = sett;
+            }
+        }
+        return noiseTransition;
+    }
+
     public float[,] buildNoiseMap(int seed)
     {
         NoiseGenerator noiseGenerator = new NoiseGenerator();
 
-        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(500,300, 20, 2, 1.0f, 1.0f, seed, Vector2.zero);
-        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(500, 300, 32, 600, seed);
-        //float[,] tundranoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,13,1.5f, seed);
-        //float[,] hellnoise = noiseGenerator.GeneratePerlinNoiseMatrix(500,300,15,1, seed);
-        //float[,] voidnoise = noiseGenerator.GenerateVoronoiNoiseMatrix(500,300,38,1000, seed);
+        float[,] cavenoise = noiseGenerator.GenerateFractalBrownianMotionMatrix(512,192, 10, 2, 1.0f, 1.0f, seed, Vector2.zero,1);
+        float[,] poisoncavenoise = noiseGenerator.GenerateVoronoiNoiseMatrix(512, 192, 32, 600, seed,3);
+        float[,] tundranoise = noiseGenerator.GeneratePerlinNoiseMatrix(512,192,13,1.5f, seed, 2);
+        float[,] hellnoise = noiseGenerator.GeneratePerlinNoiseMatrix(512,192,15,1, seed, 4);
+        float[,] voidnoise = noiseGenerator.GenerateVoronoiNoiseMatrix(512,192,38,1000, seed, 5);
         List<float[,]> noisemaps = new List<float[,]>();
-        float[,] noiseTransition = new float[500, 6];
-        for (int x = 0; x < 6; x++)
-        {
-            for (int i = 0; i < 500; i++)
-            {
-                noiseTransition[i, x] = 255f;
-            }
-        }
-        //noisemaps.Add(noiseTransition);
-        //noisemaps.Add(voidnoise);
-        //noisemaps.Add(noiseTransition);
-        //noisemaps.Add(hellnoise);
-        //noisemaps.Add(noiseTransition);
-        //noisemaps.Add(tundranoise);
-        //noisemaps.Add(noiseTransition);
-        noisemaps.Add(poisoncavenoise);
-        noisemaps.Add(noiseTransition);
         noisemaps.Add(cavenoise);
-        //noisemaps.Add(noiseTransition);
+        noisemaps.Add(transitionBuilder(512,4,11));
+        noisemaps.Add(tundranoise);
+        noisemaps.Add(transitionBuilder(512,4,21));
+        noisemaps.Add(poisoncavenoise);
+        noisemaps.Add(transitionBuilder(512, 4, 31));
+        noisemaps.Add(hellnoise);
+        noisemaps.Add(transitionBuilder(512, 4,41));
+        noisemaps.Add(voidnoise);
+        noisemaps.Add(transitionBuilder(512, 4, 51));
+        noisemaps.Add(transitionBuilder(512, 4, 51));
+        noisemaps.Add(transitionBuilder(512, 4, 51));
+        noisemaps.Add(transitionBuilder(512, 4, 51));
         return StackMatricesVertically(noisemaps);
     }
 

@@ -42,7 +42,7 @@ namespace Assets.Scripts.ProceduralGeneration
         private void BuildMap()
         {
             NoiseGenerator noiseGenerator = new NoiseGenerator();
-            float[,] noiseMap = noiseGenerator.GenerateVoronoiNoiseMatrix(width, height, scale, numCells, seed);
+            float[,] noiseMap = noiseGenerator.GenerateVoronoiNoiseMatrix(width, height, scale, numCells, seed, 1);
 
             for (int y = 0; y < noiseMap.GetLength(1); y++)
             {

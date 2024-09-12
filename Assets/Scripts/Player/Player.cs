@@ -9,7 +9,6 @@ public class Player : MonoBehaviour {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask tileMapLayerMask;
     [SerializeField] private GameObject pickaxe;
-    [SerializeField] private Tilemap enviroment;
     private Animator animator;
     private Rigidbody2D rigidBody;
     private CapsuleCollider2D capCollider2D;
@@ -87,13 +86,6 @@ public class Player : MonoBehaviour {
     public void attack()
     {
         animator.SetTrigger("Attack");
-        MapController mapController = enviroment.GetComponent<MapController>();
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float distance = Vector2.Distance(transform.position, mouseWorldPos);
-        Debug.Log(distance);
-        if (mapController != null &&  distance<2)
-        {
-            mapController.RemoveTile(enviroment.WorldToCell(mouseWorldPos));
-        }
     }
 }

@@ -44,7 +44,7 @@ namespace Assets.Scripts.ProceduralGeneration
         private void BuildMap()
         {
             NoiseGenerator noiseGenerator = new NoiseGenerator();
-            float[,] noiseMap = noiseGenerator.GenerateFractalBrownianMotionMatrix(width, height, scale, octaves, persistence, lacunarity, seed, offset);
+            float[,] noiseMap = noiseGenerator.GenerateFractalBrownianMotionMatrix(width, height, scale, octaves, persistence, lacunarity, seed, offset,   1);
 
             for (int y = 0; y < noiseMap.GetLength(1); y++)
             {
