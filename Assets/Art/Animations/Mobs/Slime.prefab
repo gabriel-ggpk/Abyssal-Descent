@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2016749723459525603
 Transform:
   m_ObjectHideFlags: 0
@@ -475,6 +475,7 @@ MonoBehaviour:
   knockback: 10
   healthBar: {fileID: 0}
   life: 15
+  dropPF: {fileID: 3544583324404090127, guid: 3cc488c803e95b64fafdc1fe35048c8a, type: 3}
 --- !u!82 &-1118373762026569273
 AudioSource:
   m_ObjectHideFlags: 0

@@ -51,11 +51,12 @@ public class EnemyAI : MonoBehaviour
     private HealthSystem healthSystem;
     private bool enableMovement = true;
     private bool isInvincible = false;
-
+    public GameObject dropPF; 
 
 
     public void Start()
     {
+
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
@@ -119,6 +120,7 @@ public class EnemyAI : MonoBehaviour
                 //if (isInAir) return;
                 isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                
                 audioSource.PlayOneShot(jumpSFX);
                 StartCoroutine(JumpCoolDown());
 
@@ -195,7 +197,7 @@ public class EnemyAI : MonoBehaviour
         {
             Vector2 direction = (collisionObject.transform.position - transform.position).normalized;
             Player player = collisionObject.GetComponent<Player>();
-            player.StartCoroutine(player.getHit(direction * knockback, 34));
+            player.StartCoroutine(player.getHit(direction * knockback, 10));
 
         }
     }
@@ -212,6 +214,7 @@ public class EnemyAI : MonoBehaviour
         {
             audioSource.PlayOneShot(deadSFX);
             yield return new WaitForSeconds(1f);
+            Instantiate(dropPF, transform.position, Quaternion.identity);
             Destroy(gameObject);
             StopAllCoroutines();
         }
